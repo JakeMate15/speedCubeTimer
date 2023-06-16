@@ -121,19 +121,12 @@ $(document).ready(function() {
         var selectedOption = $(this).val();
 
         if (selectedOption === "Nueva") {
-            // Show the modal when "Nueva" is selected
             $('#nuevaSesionModal').modal('show');
         }
     });
 
-    // Handle the click event of the "Guardar" button inside the modal
     $("#guardarSesionBtn").click(function() {
         var nombreSesion = $("#nombreSesionInput").val();
-
-        // Perform the database insertion with the nombreSesion value
-        // ...
-
-        // Update the dropdown value and close the modal
         $("#sesionOp").val(nombreSesion);
         $('#nuevaSesionModal').modal('hide');
     });

@@ -53,48 +53,52 @@ function registro(req, res) {
     }
 }
 
-function alta(req,res){
+function alta(req, res) {
     const data = req.body;
-    
-    req.getConnection((err,conn)=>{
-        conn.query('SELECT * FROM usuario WHERE correo = ?', [data.correo],(err,userdata)=>{
-            if(userdata.length > 0){
-                res.render('plantillas/registro', {error: 'El correo ya ha sido registrado!'});
-            }
-            else{
-                
-                if(data.pass == data.confimacionPass){
-                    bcrypt.hash(data.pass,12).then(hash=>{
+  
+    req.getConnection((err, conn) => {
+        conn.query('SELECT * FROM usuario WHERE correo = ?', [data.correo], (err, userdata) => {
+            if (userdata.length > 0) {
+            res.render('plantillas/registro', { error: '¡El correo ya ha sido registrado!' });
+            } 
+            else {
+                if (data.pass == data.confimacionPass) {
+                    bcrypt.hash(data.pass, 12).then(hash => {
                         data.pass = hash;
                         data.colorBoton = '#000000';
                         data.colorTexto = '#000000';
                         data.colorFondo = '#000000';
                         data.colorContenedores = '#000000';
-                        data.inspeccion = true;
-                        data.mostrarTiempo = false;
-
+            
                         delete data.confimacionPass;
-                
-                        req.getConnection((err,conn)=>{
-                            conn.query('INSERT INTO usuario SET ?', [data], (err,rows)=>{
-                                //req.session
-    
-                                res.redirect('/');
+            
+                        req.getConnection((err, conn) => {
+                            conn.query('INSERT INTO usuario SET ?', [data], (err, rows) => {
+                                const idUsuario = rows.insertId;
+                                req.session.idUsr = idUsuario;
+            
+                                const nuevaSesion = {
+                                nombreSesion: 1, 
+                                idUsuario: idUsuario
+                                };
+            
+                                conn.query('INSERT INTO sesion SET ?', [nuevaSesion], (err, sesionRows) => {
+                                    res.redirect('/');
+                                });
                             });
-                        })
+                        });
                     });
+                } 
+                else {
+                    res.render('plantillas/registro', { error: 'Las contraseñas no coinciden' });
                 }
-                else{
-                    res.render('plantillas/registro', {error: 'Las contraseñas no coinciden'});
-                }
-
             }
         });
     });
-    
-    
 }
-
+  
+  
+  
 
 function cerrarSesion(req,res){
     if(req.session.loggedin == true){

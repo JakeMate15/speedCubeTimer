@@ -15,10 +15,14 @@
         <div class="dropdown no-arrow mb-4" style="display: inline-block;">
             <label for="sessionDropdown" style="margin-right: 10px;">Sesión:</label>
             <select class="btn btn-secondary dropdown-toggle" id="sesionOp">
-                <option value="1">1</option>
+                {{#each sesiones}}
+                    <option value="{{this.idSesion}}">{{this.nombreSesion}}</option>
+                {{/each}}
                 <option value="Nueva">Nueva</option>
             </select>
         </div>
+
+
 
     <div class="modal fade" id="nuevaSesionModal" tabindex="-1" role="dialog" aria-labelledby="nuevaSesionModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -30,15 +34,18 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" id="nombreSesionInput" class="form-control" placeholder="Nombre de la nueva sesión">
+                    <form id="nuevaSesionForm" action="/guardar-sesion" method="POST">
+                        <input type="text" name="nombreSesion" id="nombreSesionInput" class="form-control" placeholder="Nombre de la nueva sesión">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" id="guardarSesionBtn">Guardar</button>
                 </div>
             </div>
         </div>
     </div>
+
 
     
         <div style="display: inline-block; vertical-align: middle; margin: 0 10px;"></div> 
