@@ -1,0 +1,90 @@
+<div class="container-fluid">
+
+    <!-- Selector -->
+    <div class="dropdown no-arrow mb-4" style="display: inline-block;">
+        <select class="btn btn-secondary dropdown-toggle" id="sessionDropdown">
+            <option value="sesion1">Estadisticas</option>
+            <option value="sesion2">Lista de tiempos</option>
+        </select>
+    </div>
+
+    <div class="row">
+
+    <!-- Mejor tiempo -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Mejor tiempo</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800"> {{pb}} </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mejor ao5 -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Mejor promedio</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ao5}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mejor ao12 -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Mejor ao12</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ao12}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- avg -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Promedio</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{avg}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</div>
+
+
+<div class="col-xl-12 col-lg-12">
+    <div class="card shadow mb-4">
+        <div
+            class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+            <h6 class="m-0 font-weight-bold text-primary">Tus tiempos a traves del tiempo</h6>
+        </div>
+        
+        <div class="card-body">
+            <div class="chart-area">
+                <canvas id="myAreaChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

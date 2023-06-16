@@ -1,0 +1,86 @@
+<div class="container-fluid">
+    <div class="col-xl-12 col-md-12 mb-4">
+        <div class="card shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="h5 mb-0 font-weight-bold text-gray-800 text-center" id="scrTimer">U2 L2 F' L2 D' L2 D2 L2 F2 D F2 L2 D' L' B L2 U L D' R'</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <div class="dropdown no-arrow mb-4" style="display: inline-block;">
+            <label for="sessionDropdown" style="margin-right: 10px;">Sesión:</label>
+            <select class="btn btn-secondary dropdown-toggle" id="sesionOp">
+                <option value="1">1</option>
+                <option value="Nueva">Nueva</option>
+            </select>
+        </div>
+
+    <div class="modal fade" id="nuevaSesionModal" tabindex="-1" role="dialog" aria-labelledby="nuevaSesionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevaSesionModalLabel">Agregar nueva sesión</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="nombreSesionInput" class="form-control" placeholder="Nombre de la nueva sesión">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-primary" id="guardarSesionBtn">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+        <div style="display: inline-block; vertical-align: middle; margin: 0 10px;"></div> 
+        
+        <div class="dropdown no-arrow mb-4" style="display: inline-block;">
+            <label for="mixDropdown" style="margin-right: 10px;">Mezcla:</label>
+            <select class="btn btn-secondary dropdown-toggle" id="mezclaOp">
+                <option value="wca">WCA</option>
+                <option value="cruzR">Cruz Resuelta</option>
+                <option value="LL">LL</option>
+                <option value="esquinas">Esquinas Resueltas</option>
+                <option value="aristas">Aristas Resueltas</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Cronómetro -->
+    <div id="timerContainer" style="text-align: center;">
+        <h1 id="cronometro" style="font-size: 72px;">00:00:00</h1>
+        <div style="margin-top: 20px;">
+            <a href="#" id="mas2" class="btn btn-info btn-circle btn-lg">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a href="#" id="dnf" class="btn btn-warning btn-circle btn-lg">
+                <i class="fa fa-times"></i>
+            </a>
+            <a href="#" id="borrar" class="btn btn-danger btn-circle btn-lg">
+                <i class="fas fa-trash"></i>
+            </a>
+        </div>
+    </div>
+
+
+    
+    <div id="aos" style="text-align: center;">
+        <div style="margin-top: 20px;">
+            <h1 id="timer" style="font-size: 40px;">ao5: </h1>
+            <h1 id="timer" style="font-size: 40px;">ao12: </h1>
+        </div>
+    </div>
+    
+
+
+
+</div>
