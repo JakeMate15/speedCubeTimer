@@ -8,6 +8,7 @@ function toggleTimer() {
         corriendo = false;
         clearTimeout(idTiempo);
         $("#sesionOp, #mezclaOp").change(); 
+        guardarTiempo();
     } else {
         corriendo = true;
         tiempoInicio = Date.now();
@@ -131,3 +132,24 @@ $(document).ready(function() {
         $('#nuevaSesionModal').modal('hide');
     });
 });
+
+function guardarTiempo() {
+    const tiempo = (timerHtml.textContent == "DNF" || timerHtml.textContent == "Borrado") ? formatTime(0) : timerHtml.textContent;
+    const fecha = new Date().toISOString().split('T')[0];
+    const valido = (timerHtml.textContent == "DNF" || timerHtml.textContent == "Borrado") ? 0 : 1;
+    const mezcla = document.getElementById('scrTimer').textContent;
+    const idSesion = document.getElementById('sesionOp').value;
+
+    $.ajax({
+        url: '/guardar-tiempo',
+        method: 'POST',
+        data: { tiempo, fecha, valido, mezcla, idSesion },
+        success: function (response) {
+            window.location.href = '/timer';
+        },
+        error: function (error) {
+            console.error('Error al guardar el tiempo:', error);
+        }
+    });
+
+}

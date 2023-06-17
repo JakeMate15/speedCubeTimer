@@ -44,9 +44,29 @@ function guardarNuevaSesion(req, res) {
     }
 }
 
+function guardarTiempo(req, res) {
+    if(req.session.loggedin == true){
+
+        req.getConnection((err, conn) => {
+            const consulta = 'INSERT INTO tmp SET ?';
+            conn.query(consulta, [req.body], (err, result) => {
+                if(err){
+                    console.log(err);
+                }
+                res.redirect('timer');
+            });
+        });
+        
+    }
+    else{
+        res.redirect('login');
+    }
+}
+
 
 module.exports = {
     timer,
     estadisticas,
-    guardarNuevaSesion
+    guardarNuevaSesion,
+    guardarTiempo
 };
