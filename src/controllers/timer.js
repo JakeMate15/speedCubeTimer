@@ -13,7 +13,7 @@ function timer(req, res) {
     else {
       res.render('plantillas/login');
     }
-  }
+}
   
 
 function estadisticas(req,res){

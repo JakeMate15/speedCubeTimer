@@ -2,13 +2,14 @@ var timerHtml = document.getElementById('cronometro');
 var tiempoInicio;
 var corriendo = false;
 var idTiempo;
+var tiempoOcurrido;
 
 function toggleTimer() {
     if (corriendo) {
         corriendo = false;
         clearTimeout(idTiempo);
-        $("#sesionOp, #mezclaOp").change(); 
         guardarTiempo();
+        $("#sesionOp, #mezclaOp").change(); 
     } else {
         corriendo = true;
         tiempoInicio = Date.now();
@@ -18,7 +19,7 @@ function toggleTimer() {
 
 function actualizaTiempo() {
     var tiempoActual = Date.now();
-    var tiempoOcurrido = tiempoActual - tiempoInicio;
+    tiempoOcurrido = tiempoActual - tiempoInicio;
     var formatoTiempo = formatTime(tiempoOcurrido);
     timerHtml.textContent = formatoTiempo;
 
@@ -134,7 +135,8 @@ $(document).ready(function() {
 });
 
 function guardarTiempo() {
-    const tiempo = (timerHtml.textContent == "DNF" || timerHtml.textContent == "Borrado") ? formatTime(0) : timerHtml.textContent;
+    var t = timerHtml.textContent;
+    const tiempo = (timerHtml.textContent == "DNF" || timerHtml.textContent == "Borrado") ? 0 : convertirAMilisegundos(t);
     const fecha = new Date().toISOString().split('T')[0];
     const valido = (timerHtml.textContent == "DNF" || timerHtml.textContent == "Borrado") ? 0 : 1;
     const mezcla = document.getElementById('scrTimer').textContent;
@@ -145,7 +147,7 @@ function guardarTiempo() {
         method: 'POST',
         data: { tiempo, fecha, valido, mezcla, idSesion },
         success: function (response) {
-            window.location.href = '/timer';
+            console.log("Insertado");
         },
         error: function (error) {
             console.error('Error al guardar el tiempo:', error);
