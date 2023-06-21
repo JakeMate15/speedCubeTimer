@@ -186,10 +186,12 @@ function obtenAvg() {
             //console.log(tiempos);
             var avg5 = -1,ao12 = -1;
 
-            if(tiempos.length>=1){
-                if(tiempos[0].tiempo  < response.records.pb){
-                    console.log("Nuevo pb");
-                    console.log(tiempos[0]);
+            if (tiempos.length >= 12) {
+                var ultimos12 = tiempos.slice(-12);
+                ao12 = (ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length).toFixed(2);
+            
+                if(ao12 < Number(response.records.ao12) ){
+                    nuevoA12(tiempos.slice(-12), formatTime(ao12), (Number(response.records.ao12)));
                 }
             }
         
@@ -205,18 +207,13 @@ function obtenAvg() {
                 avg5 = (tiemposIntermedios / 3).toFixed(2);
 
                 if(avg5 < Number(response.records.avg5) ){
-                    console.log("avg5");
-                    console.log(tiempos.slice(0,5));
+                    nuevoA5(tiempos.slice(0,5), formatTime(avg5), (Number(response.records.avg5)));
                 }
             }
             
-            if (tiempos.length >= 12) {
-                var ultimos12 = tiempos.slice(-12);
-                ao12 = (ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length).toFixed(2);
-            
-                if(ao12 < Number(response.records.ao12) ){
-                    console.log("ao12");
-                    console.log(tiempos.slice(-12));
+            if(tiempos.length>=1){
+                if(tiempos[0].tiempo  < response.records.pb){
+                    nuevoPv(tiempos[0], formatTime(Number(tiempos[0].tiempo)), (Number(response.records.pb)));
                 }
             }
 
@@ -238,4 +235,31 @@ function obtenAvg() {
             console.log("Hay un error");
         }
     });
+}
+
+
+function nuevoPv(datos, nuevo, anterior) {
+    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
+    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
+    
+    console.log(datos);
+}
+
+function nuevoA5(datos, nuevo, anterior) {
+    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
+    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
+    // Resto de tu lógica
+}
+
+function nuevoA12(datos, nuevo, anterior) {
+    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
+    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
+    // Resto de tu lógica
+}
+
+function mostrarModal(nombreFuncion, nuevo, anterior) {
+    $('#nuevoMejorModal').modal('show');
+    $('#nuevoMejorModal').find('.modal-title').text("Nuevo mejor " + nombreFuncion);
+    $('#nuevoMejorModal').find('.modal-body').find('p:nth-child(1)').text("Anterior: " + anterior);
+    $('#nuevoMejorModal').find('.modal-body').find('p:nth-child(2)').text("Nuevo: " + nuevo);
 }

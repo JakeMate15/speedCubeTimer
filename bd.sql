@@ -1,6 +1,6 @@
 create database timer
 use timer
--- Crear la tabla "usuario"
+
 CREATE TABLE usuario (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(255),
@@ -16,13 +16,13 @@ CREATE TABLE usuario (
 
 -- Crear la tabla "sesion"
 CREATE TABLE sesion (
-  idSesion INT AUTO_INCREMENT PRIMARY KEY,
-  nombreSesion VARCHAR(255),
-  avg5 int, 
-  ao12 int, 
-  pb int,
-  idUsuario INT,
-  FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+    idSesion INT AUTO_INCREMENT PRIMARY KEY,
+    nombreSesion VARCHAR(255),
+    avg5 int, 
+    ao12 int, 
+    pb int,
+    idUsuario INT,
+    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE tmp (
@@ -35,14 +35,9 @@ CREATE TABLE tmp (
   FOREIGN KEY (idSesion) REFERENCES sesion(idSesion)
 );
 
+drop database timer
 
-select * from sesion where idUsuario = 1 AND idSesion = 1
+select * from sesion
+
+SELECT avg5, ao12, pb FROM sesion WHERE idSesion = 1
 select * from usuario
-select * from tmp
-
-
-SELECT tiempo FROM tmp WHERE idSesion = 1 AND idUsuario = 1
-
-
-
-select * from tmp where idSesion = 1 ORDER BY idTiempo DESC LIMIT 12
