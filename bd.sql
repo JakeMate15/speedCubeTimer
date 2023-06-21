@@ -10,8 +10,8 @@ CREATE TABLE usuario (
     colorTexto VARCHAR(255),
     colorFondo VARCHAR(255),
     colorContenedores VARCHAR(255),
-    inspeccion boolean,
-    mostrarTiempo boolean
+    inspeccion BOOLEAN,
+    ocultarTmp BOOLEAN
 );
 
 -- Crear la tabla "sesion"
@@ -22,26 +22,24 @@ CREATE TABLE sesion (
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
--- Crear la tabla "tiempo"
-CREATE TABLE tiempo (
-    idTiempo INT AUTO_INCREMENT PRIMARY KEY,
-    tiempo TIME,
-    fecha DATE,
-    valido BOOLEAN,
-    idMezcla INT,
-    FOREIGN KEY (idMezcla) REFERENCES mezcla(idMezcla),
-    idSesion INT,
-    FOREIGN KEY (idSesion) REFERENCES sesion(idSesion)
-);
-
--- Crear la tabla "mezcla"
-CREATE TABLE mezcla (
-    idMezcla INT AUTO_INCREMENT PRIMARY KEY,
-    mezcla VARCHAR(255)
+CREATE TABLE tmp (
+  idTiempo INT AUTO_INCREMENT PRIMARY KEY,
+  tiempo INT,
+  fecha DATE,
+  valido BOOLEAN,
+  mezcla VARCHAR(255),
+  idSesion INT,
+  FOREIGN KEY (idSesion) REFERENCES sesion(idSesion)
 );
 
 
-SELECT nombreSesion FROM sesion WHERE idUsuario = idUsuario;
-drop database timer
-
+select * from sesion where idUsuario = 1 AND idSesion = 1
 select * from usuario
+select * from tmp
+
+
+SELECT tiempo FROM tmp WHERE idSesion = 1 AND idUsuario = 1
+
+
+
+select * from tmp where idSesion = 1 ORDER BY idTiempo DESC LIMIT 12

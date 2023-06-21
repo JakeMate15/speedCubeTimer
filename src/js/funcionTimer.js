@@ -121,6 +121,7 @@ $(document).ready(function() {
 
     $("#sesionOp").change(function() {
         var selectedOption = $(this).val();
+        
 
         if (selectedOption === "Nueva") {
             $('#nuevaSesionModal').modal('show');
