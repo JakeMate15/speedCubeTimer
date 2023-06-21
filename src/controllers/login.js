@@ -9,51 +9,66 @@ function login(req, res) {
     }
 }
 
-function iniciarSesion(req, res){
-    const data = req.body;
-    
-    req.getConnection((err,conn) => {
-        conn.query('SELECT * FROM usuario WHERE correo = ?',[data.correo],(err,userdata) => {
-            if(userdata.length > 0){
-                userdata.forEach(element =>{
-                    bcrypt.compare(data.pass, element.pass, (err,isMatch) => {
-                        if(!isMatch){
-                            res.render('plantillas/login', {error: 'Credenciales no válidas'});
-                        }
-                        else{
-                            //console.log(element);
-                            req.session.loggedin = true;
-                            req.session.nombre = element.Nombre;
-                            req.session.idUsr = element.idUsuario;
-                            req.session.btn = element.colorBoton;
-                            req.session.txt = element.colorTexto;
-                            req.session.fondo = element.colorFondo;
-                            req.session.contenedores = element.colorContenedores;
-                            req.session.mostrarTiempo = element.ocultarTmp;
-                            req.session.inspeccion = 1;
-                            req.session.idSesion = 1;
-                            req.session.ocultarTmp = 0;
-
-                            conn.query('SELECT avg5, ao12, pb FROM sesion WHERE idSesion = ?', [1], (err, result) => {
-                                const records = result[0];
-                                
-                                req.session.avg5 = records.avg5;
-                                req.session.ao12 = records.ao12;
-                                req.session.pb = records.pb;
-                            });
-                            
-
-                            res.redirect('timer');
-                        }
-                    });
-                });
-            }
-            else{
-                res.render('plantillas/login', {error: 'Credenciales no válidas'});
+function obtenerValoresSesion(conn) {
+    return new Promise((resolve, reject) => {
+        conn.query('SELECT avg5, ao12, pb FROM sesion WHERE idSesion = ?', [1], (err, result) => {
+            if (err) {
+                reject(err);
+            } 
+            else {
+                const records = result[0];
+                resolve(records);
             }
         });
     });
 }
+  
+function iniciarSesion(req, res) {
+    const data = req.body;
+  
+    req.getConnection((err, conn) => {
+        conn.query('SELECT * FROM usuario WHERE correo = ?', [data.correo], (err, userdata) => {
+            if (userdata.length > 0) {
+                userdata.forEach((element) => {
+                    bcrypt.compare(data.pass, element.pass, (err, isMatch) => {
+                        if (!isMatch) {
+                        res.render('plantillas/login', { error: 'Credenciales no válidas' });
+                    } 
+                    else {
+                        req.session.loggedin = true;
+                        req.session.nombre = element.Nombre;
+                        req.session.idUsr = element.idUsuario;
+                        req.session.btn = element.colorBoton;
+                        req.session.txt = element.colorTexto;
+                        req.session.fondo = element.colorFondo;
+                        req.session.contenedores = element.colorContenedores;
+                        req.session.mostrarTiempo = element.ocultarTmp;
+                        req.session.inspeccion = 1;
+                        req.session.idSesion = 1;
+                        req.session.ocultarTmp = 0;
+  
+                        Promise.all([obtenerValoresSesion(conn)])
+                        .then(([records]) => {
+                            req.session.bavg5 = records.avg5;
+                            req.session.bao12 = records.ao12;
+                            req.session.bpb = records.pb;
+                            
+                            res.redirect('timer');
+                        })
+                        .catch((err) => {
+                            console.error(err);
+                            res.render('plantillas/login', { error: 'Error al obtener los valores de sesión' });
+                        });
+                    }
+                });
+            });
+        } 
+        else {
+            res.render('plantillas/login', { error: 'Credenciales no válidas' });
+        }});
+    });
+}
+  
 
 function registro(req, res) {
 

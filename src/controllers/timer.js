@@ -33,7 +33,7 @@ function obtenAvg(conn, sesiones, res, sessionData) {
                 console.log(err);
                 res.render('error');
             } else {
-                var avg5 = -1, ao12 = -1;
+                var a5 = -1, a12 = -1;
 
                 if (result.length >= 5) {
                     var primeros5 = result.slice(0, 5).sort(function(a, b) {
@@ -44,19 +44,20 @@ function obtenAvg(conn, sesiones, res, sessionData) {
                         return sum + objeto.tiempo;
                     }, 0);
 
-                    avg5 = formatTime(tiemposIntermedios / 3);
+                    a5 = formatTime(tiemposIntermedios / 3);
                 }
 
                 if (result.length >= 12) {
                     var ultimos12 = result.slice(-12);
-                    ao12 = formatTime(ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length);
+                    a12 = formatTime(ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length);
                 }
 
-                res.render('plantillas/timer', { sesiones: sesiones, avg5: avg5, ao12: ao12, ...sessionData });
+                res.render('plantillas/timer', { sesiones: sesiones, avg5: a5, ao12: a12, ...sessionData });
             }
         });
-    } else {
-        res.render('plantillas/timer', { sesiones: sesiones, avg5: -1, ao12: -1, ...sessionData });
+    } 
+    else {
+        res.render('plantillas/timer', { sesiones: sesiones, avg5: '-', ao12: '-', ...sessionData });
     }
 }
 
@@ -83,8 +84,6 @@ function padZero(num, width) {
     }
     return numString;
 }
-
-  
 
 function estadisticas(req,res){
     if(req.session.loggedin == true){
@@ -133,24 +132,31 @@ function guardarTiempo(req, res) {
     }
 }
 
-function obtenTiempos(req, res){
-    if(req.session.loggedin == true){
+function obtenTiempos(req, res) {
+    if (req.session.loggedin == true) {
         const idSesion = req.query.idSesion;
+        //console.log(req.session);
 
-        req.getConnection((err, conn)=>{
-            const consulta = 'select tiempo from tmp where idSesion = ? ORDER BY idTiempo DESC LIMIT 12';
-            conn.query( consulta, [idSesion], (err, result)=> {
-                if(err){
-                    console.log(err);
-                }
+        req.getConnection((err, conn) => {
+            const consulta = 'SELECT * FROM tmp WHERE idSesion = ? ORDER BY idTiempo DESC LIMIT 12';
+            conn.query(consulta, [idSesion], (err, result) => {
+                //console.log(req.query);
+                
+                const records = {
+                    avg5: req.session.bavg5,
+                    ao12: req.session.bao12,
+                    pb: req.session.bpb
+                };
 
-                res.json(result);
+                const responseData = {
+                    tiempos: result,
+                    records: records
+                };
+
+                res.json(responseData);
             });
         });
-        
- 
-    }
-    else{
+    } else {
         res.redirect('login');
     }
 }
