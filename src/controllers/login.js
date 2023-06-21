@@ -33,6 +33,16 @@ function iniciarSesion(req, res){
                             req.session.inspeccion = 1;
                             req.session.idSesion = 1;
                             req.session.ocultarTmp = 0;
+
+                            conn.query('SELECT avg5, ao12, pb FROM sesion WHERE idSesion = ?', [1], (err, result) => {
+                                const records = result[0];
+                                
+                                req.session.avg5 = records.avg5;
+                                req.session.ao12 = records.ao12;
+                                req.session.pb = records.pb;
+                            });
+                            
+
                             res.redirect('timer');
                         }
                     });
@@ -82,8 +92,11 @@ function alta(req, res) {
                                 req.session.idUsr = idUsuario;
             
                                 const nuevaSesion = {
-                                nombreSesion: 1, 
-                                idUsuario: idUsuario
+                                    nombreSesion: 1, 
+                                    avg5: 2147483637,
+                                    ao12: 2147483637,
+                                    pb: 2147483637,
+                                    idUsuario: idUsuario
                                 };
             
                                 conn.query('INSERT INTO sesion SET ?', [nuevaSesion], (err, sesionRows) => {

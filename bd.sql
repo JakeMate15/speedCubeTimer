@@ -16,10 +16,13 @@ CREATE TABLE usuario (
 
 -- Crear la tabla "sesion"
 CREATE TABLE sesion (
-    idSesion INT AUTO_INCREMENT PRIMARY KEY,
-    nombreSesion VARCHAR(255),
-    idUsuario INT,
-    FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
+  idSesion INT AUTO_INCREMENT PRIMARY KEY,
+  nombreSesion VARCHAR(255),
+  avg5 int, 
+  ao12 int, 
+  pb int,
+  idUsuario INT,
+  FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
 
 CREATE TABLE tmp (
