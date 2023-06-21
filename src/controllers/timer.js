@@ -85,6 +85,16 @@ function obtenTiempos(req, res){
     }
 }
 
+function cambiaSesion(req,res){
+    if(req.session.loggedin == true){
+        req.session.idSesion = req.body.idSesion
+        res.redirect('timer');
+    }
+    else{
+        res.redirect('login');
+    }
+}
+
 
 
 module.exports = {
@@ -92,5 +102,6 @@ module.exports = {
     estadisticas,
     guardarNuevaSesion,
     guardarTiempo,
-    obtenTiempos
+    obtenTiempos,
+    cambiaSesion
 };

@@ -120,11 +120,14 @@ $(document).ready(function() {
     });
 
     $("#sesionOp").change(function() {
-        var selectedOption = $(this).val();
+        var idSesion = $(this).val();
         
 
-        if (selectedOption === "Nueva") {
+        if (idSesion === "Nueva") {
             $('#nuevaSesionModal').modal('show');
+        }
+        else{
+            actualizaSesion(idSesion);
         }
     });
 
@@ -155,6 +158,21 @@ function guardarTiempo() {
         }
     });
 
+}
+
+function actualizaSesion(idSesion){
+
+    $.ajax({
+        url: '/cambiaSesion',
+        method: 'POST',
+        data: {idSesion},
+        success: function(response){
+            //console.log(response);
+        },
+        error: function (error) {
+            //console.error('Error al guardar el tiempo:', error);
+        }
+    });
 }
 
 function obtenAvg() {

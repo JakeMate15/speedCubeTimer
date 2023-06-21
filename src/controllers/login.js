@@ -30,9 +30,9 @@ function iniciarSesion(req, res){
                             req.session.fondo = element.colorFondo;
                             req.session.contenedores = element.colorContenedores;
                             req.session.mostrarTiempo = element.ocultarTmp;
-                            req.session.inspeccion = element.inspeccion;
+                            req.session.inspeccion = 1;
                             req.session.idSesion = 1;
-                        data.ocultarTmp = 0;
+                            req.session.ocultarTmp = 0;
                             res.redirect('timer');
                         }
                     });

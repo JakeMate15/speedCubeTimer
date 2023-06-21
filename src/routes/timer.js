@@ -8,6 +8,7 @@ router.get('/estadisticas', timerController.estadisticas);
 router.post('/guardar-sesion', timerController.guardarNuevaSesion);
 router.post('/guardar-tiempo', timerController.guardarTiempo);
 router.get('/obtenTiempos', timerController.obtenTiempos);
+router.post('/cambiaSesion',timerController.cambiaSesion);
 
 
 module.exports = router;
