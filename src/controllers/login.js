@@ -29,8 +29,9 @@ function iniciarSesion(req, res){
                             req.session.txt = element.colorTexto;
                             req.session.fondo = element.colorFondo;
                             req.session.contenedores = element.colorContenedores;
-                            req.session.mostrarTiempo = element.mostrarTiempo;
+                            req.session.mostrarTiempo = element.ocultarTmp;
                             req.session.inspeccion = element.inspeccion;
+                        data.ocultarTmp = 0;
                             res.redirect('timer');
                         }
                     });
@@ -69,6 +70,8 @@ function alta(req, res) {
                         data.colorTexto = '#000000';
                         data.colorFondo = '#000000';
                         data.colorContenedores = '#000000';
+                        data.inspeccion = 1;
+                        data.ocultarTmp = 0;
             
                         delete data.confimacionPass;
             
