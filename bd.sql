@@ -1,6 +1,9 @@
 create database timer
 use timer
 
+create database timer
+use timer
+
 CREATE TABLE usuario (
     idUsuario INT AUTO_INCREMENT PRIMARY KEY,
     Nombre VARCHAR(255),
@@ -21,6 +24,7 @@ CREATE TABLE sesion (
     avg5 int, 
     ao12 int, 
     pb int,
+    iPb int,
     idUsuario INT,
     FOREIGN KEY (idUsuario) REFERENCES usuario(idUsuario)
 );
@@ -34,6 +38,7 @@ CREATE TABLE tmp (
   idSesion INT,
   FOREIGN KEY (idSesion) REFERENCES sesion(idSesion)
 );
+
 
 drop database timer
 

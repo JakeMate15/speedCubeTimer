@@ -106,7 +106,7 @@ function alta(req, res) {
                             conn.query('INSERT INTO usuario SET ?', [data], (err, rows) => {
                                 const idUsuario = rows.insertId;
                                 req.session.idUsr = idUsuario;
-            
+
                                 const nuevaSesion = {
                                     nombreSesion: 1, 
                                     avg5: 2147483637,
@@ -117,6 +117,9 @@ function alta(req, res) {
                                 };
             
                                 conn.query('INSERT INTO sesion SET ?', [nuevaSesion], (err, sesionRows) => {
+                                    if(err){
+                                        console.log(err);
+                                    }
                                     res.redirect('/');
                                 });
                             });
