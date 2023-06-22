@@ -8,12 +8,12 @@
 
         <link rel="stylesheet" href="/fontawesome-free/css/all.min.css">
         <link rel="stylesheet" href="/sb-admin-2.min.css">
-
+        <link rel="stylesheet" href="/dataTables.bootstrap4.min.css" >
     </head>
 
 
     {{#if nombre}}
-        <body>
+        <body id="page-top">
             <div id="wrapper">
 
                 <!-- Barra de la izq -->
@@ -35,6 +35,17 @@
                             <i class="fas fa-fw fa-tachometer-alt"></i>
                             <span>Timer</span></a>
                     </li>
+
+                    <!-- Rank -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="rank">
+                            <i class="fas fa-fw fa-trophy"></i>
+                            <span>Ranking</span></a>
+                    </li>
+
+
+                    <!-- Division -->
+                    <hr class="sidebar-divider my-0">
                     
                     <!-- Estadisticas -->
                     <li class="nav-item">
