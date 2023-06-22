@@ -1,33 +1,63 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-6 mx-auto">
-      <h2 class="text-center" id="container">Mis tiempos</h2>
-    </div>
+<div class="container-fluid">
+  <h1 class="col-md-6 mb-4">Mis tiempos</h1>
+
+  <div class="row" id="rowContainer">
+
   </div>
-  <div class="row" id="tiempos-container">
-    <!-- Los rectángulos generados por Handlebars se insertarán aquí -->
-  </div>
+
 </div>
 
-
-<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
 <script>
-        document.addEventListener('DOMContentLoaded', function () {
+  document.addEventListener('DOMContentLoaded', function () {
     const prom = {{{info}}};
 
     const validTiempos = prom.filter(item => item.valido);
 
-    const labels = validTiempos.map((_, index) => (index + 1).toString());
-    const tiempos = validTiempos.map(item => item.tiempo);
-    const fechas = validTiempos.map(item => item.fecha);
-    const mezclas = validTiempos.map(item => item.mezcla);
-
-    const tiemposConvertidos = tiempos.map(tiempo => {
-        const tiempoSegundos = tiempo / 1000;
-        return tiempoSegundos;
+    const tiemposConvertidos = validTiempos.map(item => {
+      const tiempoSegundos = item.tiempo / 1000;
+      const fecha = new Date(item.fecha);
+      const fechaSinHora = fecha.toISOString().split('T')[0]; // Obtener solo la fecha sin la hora
+      return { tiempo: tiempoSegundos, fecha: fechaSinHora, mezcla: item.mezcla };
     });
 
-    console.log(tiemposConvertidos);
-            
-});
+    const rowContainer = document.getElementById('rowContainer');
+
+    for (var i = 0; i < tiemposConvertidos.length; i++) {
+      var tiempoObj = tiemposConvertidos[i];
+
+      var colDiv = document.createElement('div');
+      colDiv.className = 'col-xl-3 col-md-6 mb-4';
+
+      var cardDiv = document.createElement('div');
+      cardDiv.className = 'card border-left-info shadow h-100 py-2';
+
+      var cardBodyDiv = document.createElement('div');
+      cardBodyDiv.className = 'card-body';
+
+      var rowDiv = document.createElement('div');
+      rowDiv.className = 'row no-gutters align-items-center';
+
+      var colMrDiv = document.createElement('div');
+      colMrDiv.className = 'col mr-2';
+
+      var tiempoDiv = document.createElement('div');
+      tiempoDiv.className = 'h5 mb-0 font-weight-bold text-primary'; // Cambiar el color del texto a azul
+      tiempoDiv.textContent = tiempoObj.tiempo;
+
+      var fechaDiv = document.createElement('div');
+      fechaDiv.textContent = 'Fecha: ' + tiempoObj.fecha;
+
+      var mezclaDiv = document.createElement('div');
+      mezclaDiv.textContent = 'Mezcla: ' + tiempoObj.mezcla;
+
+      colMrDiv.appendChild(tiempoDiv); // Colocar el tiempo en lugar del título
+      colMrDiv.appendChild(fechaDiv);
+      colMrDiv.appendChild(mezclaDiv);
+      rowDiv.appendChild(colMrDiv);
+      cardBodyDiv.appendChild(rowDiv);
+      cardDiv.appendChild(cardBodyDiv);
+      colDiv.appendChild(cardDiv);
+      rowContainer.appendChild(colDiv);
+    }
+  });
 </script>

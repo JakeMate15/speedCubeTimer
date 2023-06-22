@@ -30,10 +30,33 @@ function acerdaDE(req,res){
     }
 }
 
+function tiempos(req,res){
+    if(req.session.loggedin == true){
+        req.session.pb = req.session.bpb==2147483637? '-': formatTime(req.session.bpb);
+        req.session.ao5 = req.session.bavg5==2147483637? '-': formatTime(req.session.bavg5);
+        req.session.ao12 = req.session.bao12==2147483637? '-': formatTime(req.session.bao12);
+
+        req.getConnection((err, conn) => {
+            conn.query('SELECT tiempo, fecha, valido, idSesion, mezcla,promedio_tiempo  FROM tmp t CROSS JOIN (  SELECT AVG(tiempo) AS promedio_tiempo FROM tmp WHERE idSesion = ?) promedio WHERE t.idSesion = ?', [req.session.idSesion,req.session.idSesion], (err, prom) => {
+                
+                req.session.info = JSON.stringify(prom);
+                res.render('plantillas/tiempos', req.session);
+            });
+        });
+
+        
+    }
+    else{
+        res.render('plantillas/login');
+    }
+}
+
+
 
 module.exports = {
     estadisticas,
-    acerdaDE
+    acerdaDE,
+    tiempos
 }
 
 
