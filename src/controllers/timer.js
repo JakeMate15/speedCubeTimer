@@ -2,6 +2,7 @@ const mysql = require('mysql');
 
 function timer(req, res) {
     if (req.session.loggedin == true) {
+        //console.log(req.session);
         req.getConnection((err, conn) => {
             if (err) {
                 console.log(err);
@@ -106,10 +107,10 @@ function guardarNuevaSesion(req, res) {
         const datos = {
             nombreSesion: req.body.nombreSesion,
             idUsuario: req.session.idUsr,
-            avg5: req.session.bavg5,
-            ao12: req.session.bao12,
-            pb: req.session.bpb,
-            iPb: req.session.iBp
+            avg5: 2147483637,
+            ao12: 2147483637,
+            pb: 2147483637,
+            iPb: -1
         };
     
         req.getConnection((err, conn) => {
@@ -175,7 +176,20 @@ function obtenTiempos(req, res) {
 function cambiaSesion(req,res){
     if(req.session.loggedin == true){
         req.session.idSesion = req.body.idSesion
-        res.redirect('timer');
+
+        req.getConnection((err, conn) => {
+            const consulta = 'SELECT * FROM sesion WHERE idSesion = ?';
+            conn.query(consulta, [req.session.idSesion], (err, result) => {
+                //console.log(result);
+                req.session.bavg5 = result[0].avg5;
+                req.session.bao12 = result[0].ao12;
+                req.session.bpb = result[0].pb;
+                req.session.iBp = result[0].iPb;
+                res.redirect('timer');
+            });
+        });
+
+        
     }
     else{
         res.redirect('login');
