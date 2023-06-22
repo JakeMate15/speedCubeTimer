@@ -219,10 +219,6 @@ function nvoPb(req,res){
                 res.redirect('timer');
             });
         });
-        
-
-        console.log(nvo);
-        console.log(i);
     }
     else{
         res.redirect('login');
@@ -231,7 +227,18 @@ function nvoPb(req,res){
 
 function nvpA5(req,res){
     if(req.session.loggedin == true){
+        const nvo = req.body.nuevo;
+        const iS = req.session.idSesion;
 
+        req.session.bavg5 = nvo;
+        
+        
+        req.getConnection((err, conn) => {
+            const consulta = 'UPDATE sesion SET avg5 = ? where idSesion = ?';
+            conn.query(consulta, [nvo,iS], (err, result) => {
+                res.redirect('timer');
+            });
+        });
     }
     else{
         res.redirect('login');
@@ -240,7 +247,17 @@ function nvpA5(req,res){
 
 function nvpA12(req,res){
     if(req.session.loggedin == true){
+        const nvo = req.body.nuevo;
+        const iS = req.session.idSesion;
 
+        req.session.bao12 = nvo;
+
+        req.getConnection((err, conn) => {
+            const consulta = 'UPDATE sesion SET ao12 = ? where idSesion = ?';
+            conn.query(consulta, [nvo,iS], (err, result) => {
+                res.redirect('timer');
+            });
+        });
     }
     else{
         res.redirect('login');

@@ -190,7 +190,7 @@ function obtenAvg() {
                 ao12 = (ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length).toFixed(2);
             
                 if(ao12 < Number(response.records.ao12) ){
-                    //nuevoA12(tiempos.slice(-12), Number(ao12), (Number(response.records.ao12)));
+                    nuevoA12(tiempos.slice(-12), Number(ao12), (Number(response.records.ao12)));
                 }
             }
         
@@ -206,7 +206,7 @@ function obtenAvg() {
                 avg5 = (tiemposIntermedios / 3).toFixed(2);
 
                 if(avg5 < Number(response.records.avg5) ){
-                    //nuevoA5(tiempos.slice(0,5), formatTime(avg5), (Number(response.records.avg5)));
+                    nuevoA5(tiempos.slice(0,5), (avg5), (Number(response.records.avg5)));
                 }
             }
             
@@ -244,7 +244,6 @@ function nuevoPv(datos, nuevo, anterior) {
     if(anterior == 2147483637)  mostrarModal("tiempo", formatTime(nuevo), '-');
     else                        mostrarModal("tiempo", formatTime(nuevo), formatTime(anterior));
     
-    console.log(datos);
     $.ajax({
         url: '/nvoPb',
         method: 'POST',
@@ -259,15 +258,37 @@ function nuevoPv(datos, nuevo, anterior) {
 }
 
 function nuevoA5(datos, nuevo, anterior) {
-    if(anterior == 2147483637)  mostrarModal("tiempo", formatTime(nuevo), '-');
-    else                        mostrarModal("tiempo", formatTime(nuevo), formatTime(anterior));
-    // Resto de tu lógica
+    if(anterior == 2147483637)  mostrarModal("avg5", formatTime(nuevo), '-');
+    else                        mostrarModal("avg5", formatTime(nuevo), formatTime(anterior));
+    
+    $.ajax({
+        url: '/nvA5',
+        method: 'POST',
+        data: {nuevo, datos},
+        success: function(response){
+            //console.log(response);
+        },
+        error: function (error) {
+            //console.error('Error al guardar el tiempo:', error);
+        }
+    });
 }
 
 function nuevoA12(datos, nuevo, anterior) {
-    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
-    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
-    // Resto de tu lógica
+    if(anterior == 2147483637)  mostrarModal("ao12", formatTime(nuevo), '-');
+    else                        mostrarModal("ao12", formatTime(nuevo), formatTime(anterior));
+    
+    $.ajax({
+        url: '/nvoA12',
+        method: 'POST',
+        data: {nuevo, datos},
+        success: function(response){
+            //console.log(response);
+        },
+        error: function (error) {
+            //console.error('Error al guardar el tiempo:', error);
+        }
+    });
 }
 
 function mostrarModal(nombreFuncion, nuevo, anterior) {
