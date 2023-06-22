@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 mx-auto">
+      <h2 class="text-center" id="container">Mis tiempos</h2>
+    </div>
+  </div>
+  <div class="row" id="tiempos-container">
+    <!-- Los rectángulos generados por Handlebars se insertarán aquí -->
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/handlebars@4.7.7/dist/handlebars.min.js"></script>
+<script>
+        document.addEventListener('DOMContentLoaded', function () {
+    const prom = {{{info}}};
+
+    const validTiempos = prom.filter(item => item.valido);
+
+    const labels = validTiempos.map((_, index) => (index + 1).toString());
+    const tiempos = validTiempos.map(item => item.tiempo);
+    const fechas = validTiempos.map(item => item.fecha);
+    const mezclas = validTiempos.map(item => item.mezcla);
+
+    const tiemposConvertidos = tiempos.map(tiempo => {
+        const tiempoSegundos = tiempo / 1000;
+        return tiempoSegundos;
+    });
+
+    console.log(tiemposConvertidos);
+            
+});
+</script>

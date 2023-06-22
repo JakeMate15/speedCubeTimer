@@ -21,9 +21,19 @@ function estadisticas(req,res){
     }
 }
 
+function acerdaDE(req,res){
+    if(req.session.loggedin == true){   
+        res.render('plantillas/acerca', req.session);        
+    }
+    else{
+        res.render('plantillas/login');
+    }
+}
+
 
 module.exports = {
     estadisticas,
+    acerdaDE
 }
 
 
