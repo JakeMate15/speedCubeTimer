@@ -94,11 +94,22 @@ function estadisticas(req,res){
     }
 }
 
+/*
+req.session.bavg5 = records.avg5;
+                            req.session.bao12 = records.ao12;
+                            req.session.bpb = records.pb;
+                            req.session.iBp = records.iPb;
+*/
+
 function guardarNuevaSesion(req, res) {
     if(req.session.loggedin == true){
         const datos = {
             nombreSesion: req.body.nombreSesion,
-            idUsuario: req.session.idUsr
+            idUsuario: req.session.idUsr,
+            avg5: req.session.bavg5,
+            ao12: req.session.bao12,
+            pb: req.session.bpb,
+            iPb: req.session.iBp
         };
     
         req.getConnection((err, conn) => {
@@ -172,6 +183,55 @@ function cambiaSesion(req,res){
 }
 
 
+/*
+req.session.bavg5 = records.avg5;
+                            req.session.bao12 = records.ao12;
+                            req.session.bpb = records.pb;
+                            req.session.iBp = records.iPb;
+*/
+function nvoPb(req,res){
+    if(req.session.loggedin == true){
+        const nvo = req.body.nuevo;
+        const i = req.body.datos.idTiempo;
+        const iS = req.session.idSesion;
+
+        req.session.pb = nvo;
+        req.session.iBp = iS;
+        
+        
+        req.getConnection((err, conn) => {
+            const consulta = 'UPDATE sesion SET pb = ?, iPb = ? where idSesion = ?';
+            conn.query(consulta, [nvo,i,iS], (err, result) => {
+                res.redirect('timer');
+            });
+        });
+        
+
+        console.log(nvo);
+        console.log(i);
+    }
+    else{
+        res.redirect('login');
+    }
+}
+
+function nvpA5(req,res){
+    if(req.session.loggedin == true){
+
+    }
+    else{
+        res.redirect('login');
+    }
+}
+
+function nvpA12(req,res){
+    if(req.session.loggedin == true){
+
+    }
+    else{
+        res.redirect('login');
+    }
+}
 
 module.exports = {
     timer,
@@ -179,5 +239,8 @@ module.exports = {
     guardarNuevaSesion,
     guardarTiempo,
     obtenTiempos,
-    cambiaSesion
+    cambiaSesion,
+    nvoPb,
+    nvpA5,
+    nvpA12
 };

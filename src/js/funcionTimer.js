@@ -183,7 +183,6 @@ function obtenAvg() {
         data: { idSesion: idSesion },
         success: function(response) {
             const tiempos = response.tiempos;
-            //console.log(tiempos);
             var avg5 = -1,ao12 = -1;
 
             if (tiempos.length >= 12) {
@@ -191,7 +190,7 @@ function obtenAvg() {
                 ao12 = (ultimos12.reduce((sum, objeto) => sum + objeto.tiempo, 0) / ultimos12.length).toFixed(2);
             
                 if(ao12 < Number(response.records.ao12) ){
-                    nuevoA12(tiempos.slice(-12), formatTime(ao12), (Number(response.records.ao12)));
+                    //nuevoA12(tiempos.slice(-12), Number(ao12), (Number(response.records.ao12)));
                 }
             }
         
@@ -207,13 +206,17 @@ function obtenAvg() {
                 avg5 = (tiemposIntermedios / 3).toFixed(2);
 
                 if(avg5 < Number(response.records.avg5) ){
-                    nuevoA5(tiempos.slice(0,5), formatTime(avg5), (Number(response.records.avg5)));
+                    //nuevoA5(tiempos.slice(0,5), formatTime(avg5), (Number(response.records.avg5)));
                 }
             }
             
             if(tiempos.length>=1){
-                if(tiempos[0].tiempo  < response.records.pb){
-                    nuevoPv(tiempos[0], formatTime(Number(tiempos[0].tiempo)), (Number(response.records.pb)));
+                console.log(tiempos[0].tiempo);
+                console.log(response.records.pb);
+
+                if(  Number(tiempos[0].tiempo)  < Number(response.records.pb) ){
+                    console.log("Hola");
+                    nuevoPv(tiempos[0], (Number(tiempos[0].tiempo)), (Number(response.records.pb)));
                 }
             }
 
@@ -243,6 +246,17 @@ function nuevoPv(datos, nuevo, anterior) {
     else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
     
     console.log(datos);
+    $.ajax({
+        url: '/nvoPb',
+        method: 'POST',
+        data: {nuevo, datos},
+        success: function(response){
+            //console.log(response);
+        },
+        error: function (error) {
+            //console.error('Error al guardar el tiempo:', error);
+        }
+    });
 }
 
 function nuevoA5(datos, nuevo, anterior) {

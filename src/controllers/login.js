@@ -52,6 +52,7 @@ function iniciarSesion(req, res) {
                             req.session.bavg5 = records.avg5;
                             req.session.bao12 = records.ao12;
                             req.session.bpb = records.pb;
+                            req.session.iBp = records.iPb;
                             
                             res.redirect('timer');
                         })
@@ -111,6 +112,7 @@ function alta(req, res) {
                                     avg5: 2147483637,
                                     ao12: 2147483637,
                                     pb: 2147483637,
+                                    iPb: -1,
                                     idUsuario: idUsuario
                                 };
             
