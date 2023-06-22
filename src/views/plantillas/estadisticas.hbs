@@ -83,8 +83,129 @@
         
         <div class="card-body">
             <div class="chart-area">
-                <canvas id="myAreaChart"></canvas>
+                <canvas id="myAreaChart" width="400" height="200"></canvas>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const prom = {{{info}}};
+
+    const validTiempos = prom.filter(item => item.valido);
+
+    const labels = validTiempos.map((_, index) => (index + 1).toString());
+    const tiempos = validTiempos.map(item => item.tiempo);
+    const fechas = validTiempos.map(item => item.fecha);
+    const mezclas = validTiempos.map(item => item.mezcla);
+
+    const tiemposConvertidos = tiempos.map(tiempo => {
+        const tiempoSegundos = tiempo / 1000;
+        return tiempoSegundos;
+    });
+
+    const promedioHastaPosicion = [];
+    let sumatoria = 0;
+    for (let i = 0; i < tiemposConvertidos.length; i++) {
+        sumatoria += tiemposConvertidos[i];
+        const promedio = sumatoria / (i + 1);
+        promedioHastaPosicion.push(promedio);
+    }
+
+    const ctx = document.getElementById("myAreaChart").getContext("2d");
+    const chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: "Tiempos",
+                    data: tiemposConvertidos,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    tension: 0.2
+                },
+                {
+                    label: "Promedio",
+                    data: promedioHastaPosicion,
+                    backgroundColor: "rgba(255, 99, 132, 0.05)",
+                    borderColor: "rgba(255, 99, 132, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(255, 99, 132, 1)",
+                    pointBorderColor: "rgba(255, 99, 132, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(255, 99, 132, 1)",
+                    pointHoverBorderColor: "rgba(255, 99, 132, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    tension: 0.2
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Posición"
+                    }
+                },
+                y: {
+                    display: true,
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Tiempo (segundos)"
+                    }
+                }
+            },
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function (context) {
+                            const index = context[0].dataIndex;
+                            const fecha = new Date(fechas[index]);
+
+                            const dia = fecha.getDate();
+                            const mes = fecha.getMonth() + 1; 
+                            const año = fecha.getFullYear();
+
+                            const fechaFormateada = dia + '/' + mes + '/' + año;
+
+                            return fechaFormateada;
+                        },
+                        label: function (context) {
+                            const index = context.dataIndex;
+                            const tiempo = tiemposConvertidos[index];
+                            const mezcla = mezclas[index];
+
+                            const tiempoFormateado = tiempo.toFixed(2) + ' segundos';
+                            const mezclaFormateada = 'Mezcla: ' + mezcla;
+
+                            return [tiempoFormateado, mezclaFormateada];
+                        }
+
+                    }
+                }
+            }
+        }
+    });
+
+    // Ajustar tamaño del canvas al contenedor
+    const container = document.querySelector(".chart-area");
+    const canvas = chart.canvas;
+    canvas.style.width = container.clientWidth + "px";
+    canvas.style.height = container.clientHeight + "px";
+});
+</script>
