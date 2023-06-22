@@ -211,11 +211,10 @@ function obtenAvg() {
             }
             
             if(tiempos.length>=1){
-                console.log(tiempos[0].tiempo);
-                console.log(response.records.pb);
+                //console.log("Tiempo nuevo " + tiempos[0].tiempo);
+                //console.log("Mejor " + response.records.pb);
 
                 if(  Number(tiempos[0].tiempo)  < Number(response.records.pb) ){
-                    console.log("Hola");
                     nuevoPv(tiempos[0], (Number(tiempos[0].tiempo)), (Number(response.records.pb)));
                 }
             }
@@ -242,8 +241,8 @@ function obtenAvg() {
 
 
 function nuevoPv(datos, nuevo, anterior) {
-    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
-    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
+    if(anterior == 2147483637)  mostrarModal("tiempo", formatTime(nuevo), '-');
+    else                        mostrarModal("tiempo", formatTime(nuevo), formatTime(anterior));
     
     console.log(datos);
     $.ajax({
@@ -260,8 +259,8 @@ function nuevoPv(datos, nuevo, anterior) {
 }
 
 function nuevoA5(datos, nuevo, anterior) {
-    if(anterior == 2147483637)  mostrarModal("tiempo", nuevo, '-');
-    else                        mostrarModal("tiempo", nuevo, formatTime(anterior));
+    if(anterior == 2147483637)  mostrarModal("tiempo", formatTime(nuevo), '-');
+    else                        mostrarModal("tiempo", formatTime(nuevo), formatTime(anterior));
     // Resto de tu lógica
 }
 
