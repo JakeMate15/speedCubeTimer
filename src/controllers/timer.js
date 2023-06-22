@@ -86,15 +86,6 @@ function padZero(num, width) {
     return numString;
 }
 
-function estadisticas(req,res){
-    if(req.session.loggedin == true){
-        res.render('plantillas/estadisticas', req.session);
-    }
-    else{
-        res.render('plantillas/login');
-    }
-}
-
 /*
 req.session.bavg5 = records.avg5;
                             req.session.bao12 = records.ao12;
@@ -266,7 +257,6 @@ function nvpA12(req,res){
 
 module.exports = {
     timer,
-    estadisticas,
     guardarNuevaSesion,
     guardarTiempo,
     obtenTiempos,
