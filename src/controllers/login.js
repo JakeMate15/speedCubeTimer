@@ -133,6 +133,48 @@ function alta(req, res) {
         });
     });
 }
+
+function cambiarDatos(req, res) {
+    const data = req.session;
+    const newData = req.body;
+    console.log(newData);
+    console.log(data);
+  
+    req.getConnection((err, conn) => {
+        conn.query('SELECT * FROM usuario WHERE idUsuario = ?', [data.idUsr], (err, userdata) => {
+            //Por si las duda revisar el código de iniciarSesion 
+            console.log(userdata);
+            if (userdata.length > 0) {
+                userdata.forEach((element) => {
+                    bcrypt.compare(newData.pass, element.pass, (err, isMatch) => {
+                        if (!isMatch) {
+                        res.render('plantillas/ajustes', { error: 'Contaseña incorrecta' });
+                    } 
+                    else {
+                        bcrypt.hash(newData.newPass, 12).then(hash => {
+                        conn.query('UPDATE usuario set Nombre= ?,pass = ? WHERE idUsuario = ? ', [newData.Nombre,hash,data.idUsr], (err, userdata) => {
+                            req.session.nombre = newData.Nombre;
+                            res.redirect('timer');
+                        });
+                        }); 
+                    }
+                });
+            });
+        } 
+        else {
+            res.render('plantillas/ajustes', { error: 'Contaseña incorrecta' });
+        }});
+    });
+}
+
+function irAjustes(req, res) {
+    if(req.session.loggedin == true){
+        res.render('plantillas/ajustes',req.session);
+    }
+    else{
+        res.redirect('login');
+    }
+}
   
 function cerrarSesion(req,res){
     if(req.session.loggedin == true){
@@ -149,5 +191,7 @@ module.exports = {
     registro,
     alta,
     iniciarSesion,
-    cerrarSesion
+    cerrarSesion,
+    cambiarDatos,
+    irAjustes
 }

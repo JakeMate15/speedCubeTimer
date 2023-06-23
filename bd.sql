@@ -45,3 +45,6 @@ describe tmp;
 select * from usuario;
 select * from sesion;
 select * from tmp;
+
+SELECT * FROM usuario WHERE idUsuario = 6;
+UPDATE usuario set Nombre='miguel',pass = 'b' WHERE idUsuario = 1 ;

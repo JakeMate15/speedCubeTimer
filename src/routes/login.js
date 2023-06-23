@@ -10,5 +10,8 @@ router.get('/registro', login.registro);
 router.post('/registro', login.alta);
 router.get('/logout',LoginController.cerrarSesion);
 
+router.get('/ajustes', login.irAjustes);
+router.post('/ajustes', login.cambiarDatos);
+
 
 module.exports = router;
