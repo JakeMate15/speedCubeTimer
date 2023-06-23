@@ -134,9 +134,6 @@ function alta(req, res) {
     });
 }
   
-  
-  
-
 function cerrarSesion(req,res){
     if(req.session.loggedin == true){
         req.session.destroy();
@@ -146,7 +143,6 @@ function cerrarSesion(req,res){
         res.redirect('/login');
     }
 }
-
 
 module.exports = {
     login,

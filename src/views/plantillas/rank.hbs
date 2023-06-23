@@ -1,22 +1,22 @@
 <div class="container-fluid">
-    <h1 class="h3 mb-2 text-gray-800">Ranking</h1>
+    <h1 class="col-md-6 mb-4">Ranking</h1>
 
     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
             <tr>
-            <th>Puesto</th>
-            <th>Nombre</th>
-            <th>Tiempo</th>
-            <th>Mezcla</th>
+            <th style="background-color:rgb(51, 90, 203);border: 5px solid rgb(133, 135, 150);color:white">Puesto</th>
+            <th style="background-color:rgb(51, 90, 203);border: 5px solid rgb(133, 135, 150);color:white"> Nombre</th>
+            <th style="background-color:rgb(51, 90, 203);border: 5px solid rgb(133, 135, 150);color:white">Tiempo</th>
+            <th style="background-color:rgb(51, 90, 203);border: 5px solid rgb(133, 135, 150);color:white">Mezcla</th>
             </tr>
         </thead>
         <tbody>
             {{#each info}}
             <tr>
-            <td>{{@index}}</td>
-            <td>{{Nombre}}</td>
-            <td>{{tiempo}}</td>
-            <td>{{mezcla}}</td>
+            <td style="border: 5px solid">{{@index}}</td>
+            <td style="border: 5px solid">{{Nombre}}</td>
+            <td style="border: 5px solid">{{tiempo}}</td>
+            <td style="border: 5px solid">{{mezcla}}</td>
             </tr>
             {{/each}}
         </tbody>

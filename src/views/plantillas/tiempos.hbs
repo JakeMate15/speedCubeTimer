@@ -41,14 +41,27 @@
       colMrDiv.className = 'col mr-2';
 
       var tiempoDiv = document.createElement('div');
-      tiempoDiv.className = 'h5 mb-0 font-weight-bold text-primary'; // Cambiar el color del texto a azul
+      tiempoDiv.className = 'h5 mb-0 font-weight-bold text-primary text-center'; // Cambiar el color del texto a azul
       tiempoDiv.textContent = tiempoObj.tiempo;
 
+
       var fechaDiv = document.createElement('div');
-      fechaDiv.textContent = 'Fecha: ' + tiempoObj.fecha;
+      fechaDiv.className = 'h5 mb-0 font-weight-bold text-primary'; 
+      fechaDiv.textContent = 'Fecha: ';
+      var fechaSpan = document.createElement('span');
+      fechaSpan.style.color = 'black'; 
+      fechaSpan.textContent = tiempoObj.fecha;
+      fechaDiv.appendChild(fechaSpan);
 
       var mezclaDiv = document.createElement('div');
-      mezclaDiv.textContent = 'Mezcla: ' + tiempoObj.mezcla;
+      mezclaDiv.className = 'h5 mb-0 font-weight-bold text-primary'; 
+      mezclaDiv.textContent = 'Mezcla: ';
+      var mezclaSpan = document.createElement('span');
+      mezclaSpan.style.color = 'black'; 
+      mezclaSpan.textContent = tiempoObj.mezcla;
+
+      mezclaDiv.appendChild(mezclaSpan);
+
 
       colMrDiv.appendChild(tiempoDiv); // Colocar el tiempo en lugar del título
       colMrDiv.appendChild(fechaDiv);
